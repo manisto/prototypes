@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8" />
+    <head>
+        <style type="text/css">
+.c01 { background-color: #ff0000; }
+.c02 { background-color: #ff8000; }
+.c03 { background-color: #ffff00; }
+.c04 { background-color: #00ff00; }
+.c05 { background-color: #00ffff; }
+.c06 { background-color: #0000ff; }
+.c07 { background-color: #ff00ff; }
+.c08 { background-color: #000000; }
+.c09 { background-color: #808080; }
+.c10 { background-color: #ffffff; }
+
+.active::before {
+    content: '✔';
+    font-weight: bold;
+}
+
+@media print {
+    @page {
+        size: landscape;
+    }
+
+    table.colors {
+        display: none;
+    }
+
+    table tr td {
+        width: .25cm;
+        height: .25cm;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table td {
+    border: .5mm solid black;
+    width: .5cm;
+    height: .5cm;
+    text-align: center;
+    vertical-align: middle;
+
+    background-image: repeating-linear-gradient(
+        45deg,
+        lightgray,
+        lightgray 25%,
+        white 25%,
+        white 50%
+    );
+}
+
+table.colors {
+    float: left;
+    margin-right: 1cm;
+}
+
+table.colors td {
+    font-size: .5cm;
+    width: .8cm;
+    height: .8cm;
+}
+        </style>
+        <style id="colorStyles"></style>
+    </head>
+    <body>
+        <table class="colors">
+            <tbody>
+                <tr id="colorRow"></tr>
+            </tbody>
+        </table>
+        <table class="image">
+            <tbody>
+            </tbody>
+        </table>
+        <button onclick="document.getElementById('log').innerText = JSON.stringify(data);">Log</button>
+        <textarea id="log"></textarea>
+        <script type="text/javascript">
+let colors = [
+    '#ff0000',
+    '#ff8000',
+    '#ffff00',
+    '#00ff00',
+    '#00ffff',
+    '#0000ff',
+    '#ff00ff',
+    '#000000',
+    '#808080',
+    '#c0c0c0',
+    '#ffffff',
+];
+
+let currentColor = null;
+let size = 32;
+let pixels = [];
+
+let data = {
+    colors: colors,
+    size: size,
+    pixels: pixels
+};
+
+function handlePaint(event, row, column) {
+    event.preventDefault();
+
+    if (!event.buttons & 1) {
+        return;
+    }
+        
+    event.target.className = currentColor;
+    pixels[row][column] = currentColor;
+}
+
+function handleColor(event) {
+    if (!event.button === 0) {
+        return;
+    }
+
+    let colorCells = document.querySelectorAll('table.colors td');
+    let cell = event.target;
+
+    colorCells.forEach((element) => element.classList.remove('active'));
+    currentColor = cell.className || null;
+    cell.classList.add('active');
+}
+
+function generateCanvas() {
+    let imageBody = document.querySelector('table.image tbody');
+
+    for (let rowCount = 0; rowCount < size; rowCount++) {
+        let row = document.createElement('tr');
+        imageBody.appendChild(row);
+
+        let rowArray = [];
+        pixels.push(rowArray);
+
+        for (let cellCount = 0; cellCount < size; cellCount++) {
+            let handleEvent = function(event) { handlePaint(event, rowCount, cellCount); }
+            rowArray[cellCount] = null;
+            let cell = document.createElement('td');
+            cell.addEventListener('mousemove', handleEvent);
+            cell.addEventListener('mousedown', handleEvent);
+            row.appendChild(cell);
+        }
+    }
+}
+
+function generateStylesheet() {
+    let styles = colors.map((color, index) => `.c${index} { background-image: none; background-color: ${color}; }`);
+    document.getElementById('colorStyles').innerText = styles.join('\n');
+}
+
+function createColor(color) {
+    let cell = document.createElement('td');
+
+    if (color === currentColor) {
+        cell.classList.add('active');
+    }
+
+    if (color) {
+        cell.classList.add(color);
+    }
+
+    return cell;
+}
+
+function generateColors() {
+    let colorCells = [];
+
+    colorCells.push(createColor(null));
+
+    colors.forEach((color, index) => {
+        colorCells.push(createColor(`c${index}`));
+    });
+
+    let colorRow = document.getElementById('colorRow');
+
+    colorCells.forEach((colorCell) => {
+        colorCell.addEventListener('click', handleColor);
+        colorRow.appendChild(colorCell);
+    });
+}
+
+generateCanvas();
+generateStylesheet();
+generateColors();
+        </script>
+    </body>
+</html>
