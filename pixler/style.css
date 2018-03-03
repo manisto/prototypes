@@ -1,0 +1,54 @@
+.c01 { background-color: #ff0000; }
+.c02 { background-color: #ff8000; }
+.c03 { background-color: #ffff00; }
+.c04 { background-color: #00ff00; }
+.c05 { background-color: #00ffff; }
+.c06 { background-color: #0000ff; }
+.c07 { background-color: #ff00ff; }
+.c08 { background-color: #000000; }
+.c09 { background-color: #808080; }
+.c10 { background-color: #ffffff; }
+
+.active::before {
+    content: '✔';
+    font-weight: bold;
+}
+
+@media print {
+    @page {
+        size: A4 landscape;
+    }
+
+    table.colors {
+        display: none;
+    }
+
+    table tr td {
+        width: .25cm;
+        height: .25cm;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table td {
+    border: .5mm solid black;
+    width: .5cm;
+    height: .5cm;
+    text-align: center;
+    vertical-align: middle;
+    background-size: cover;
+}
+
+table.colors {
+    float: left;
+    margin-right: 1cm;
+}
+
+table.colors td {
+    font-size: .5cm;
+    width: .8cm;
+    height: .8cm;
+}
