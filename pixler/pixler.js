@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 let currentColor = null;
 
@@ -21,19 +21,58 @@ let data = {
 };
 
 class Pixler {
-  constructor() {
-    Object.defineProperty(this, 'size', {
-      value: 33,
-      writable: false
+  constructor(size = 33) {
+    this.initializePixels(size);
+    this.setDefaultColors();
+    this.subscribers = [];
+  }
+
+  initializePixels(size) {
+    this.pixels = [];
+
+    for (
+      let currentPixel = 0, sizeSquared = size * size;
+      currentPixel < sizeSquared;
+      currentPixel++
+    ) {
+      this.pixels.push(null);
+    }
+  }
+
+  setDefaultColors() {
+    this.colors = [
+      "#ff0000",
+      "#ff8000",
+      "#ffff00",
+      "#00ff00",
+      "#00ffff",
+      "#0000ff",
+      "#ff00ff",
+      "#000000",
+      "#808080",
+      "#c0c0c0",
+      "#ffffff"
+    ];
+  }
+
+  get size() {
+    return Math.sqrt(this.pixels.length);
+  }
+
+  subscribe(subscriber) {
+    this.subscribers.push(subscriber);
+  }
+
+  setPixel(x, y, color) {
+    this.pixels[y * this.size + x] = color;
+
+    this.subscribers.forEach(subscriber => {
+      subscriber("PIXEL_SET", { x, y, color });
     });
   }
 
-  get wat() {
-    return 'wat';
-  }
-
-  set wat(value) {
-    console.log(value);
+  getPixel(x, y) {
+    return this.pixels[y * this.size + x];
   }
 }
 
