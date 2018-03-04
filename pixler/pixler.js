@@ -1,3 +1,5 @@
+'use strict';
+
 let currentColor = null;
 
 let data = {
@@ -18,7 +20,22 @@ let data = {
   pixels: []
 };
 
-class Pixler {}
+class Pixler {
+  constructor() {
+    Object.defineProperty(this, 'size', {
+      value: 33,
+      writable: false
+    });
+  }
+
+  get wat() {
+    return 'wat';
+  }
+
+  set wat(value) {
+    console.log(value);
+  }
+}
 
 function handlePaint(event, row, column) {
   event.preventDefault();
@@ -182,7 +199,7 @@ function doPrompt(message) {
     }
   });
 }
-generateCanvas();
-generateStylesheet();
-generateColors();
-generateEmptyBackground();
+// generateCanvas();
+// generateStylesheet();
+// generateColors();
+// generateEmptyBackground();
