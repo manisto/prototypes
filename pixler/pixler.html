@@ -7,8 +7,9 @@
     </head>
     <body>
         <div id="toolbar">
+            <button onclick="clear();">📄 New</button>
+            <button onclick="load();">📂 Load</button>
             <button onclick="save();">💾 Save</button>
-            <button onclick="load();">📁 Load</button>
             <input type="file" style="display: none;" id="file" accept=".json" onchange="fileSelected(event);" />
         </div>
         <table class="colors">
