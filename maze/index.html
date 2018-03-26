@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>Maze generation</head>
+    <script type="module">
+        import { Maze } from './maze.js';
+        import { RecursiveBacktracker } from './recursive-backtracker.js';
+        var maze = new Maze(10, 10);
+        var rb = new RecursiveBacktracker(maze);
+        rb.generate();
+        console.log(maze);
+        console.log(rb);
+    </script>
+</html>
