@@ -1,32 +1,47 @@
-import { Directions, Dx, Dy } from './directions.js';
+import { Directions } from './directions.js';
 
 export class RecursiveBacktracker {
     constructor(maze, row = 0, column = 0) {
         this.maze = maze;
-        this.row = 0;
-        this.column = 0;
         this.stack = [];
     }
 
-    generate() {
-        this.stack.push({row: this.row, column: this.column});
-        let i = 0;
-
+    generate(row = 0, column = 0) {
+        this.stack.push(this.maze.rooms[row][column]);
+        
         while (this.stack.length > 0) {
-            let directions = this.possibleDirections();
-
-            if (directions.length === 0) {
-                this.backtrack();
+            let room = this.stack[this.stack.length - 1];
+            let direction = this.chooseRandomDirection(room);
+            
+            if (direction === null) {
+                this.stack.pop();
                 continue;
             }
 
-            let chosenDirection = directions[Math.floor(Math.random() * directions.length)];
-            this.maze.connect(this.row, this.column, chosenDirection);
-            this.row += Dy[chosenDirection];
-            this.column += Dx[chosenDirection];
-            this.stack.push({row: this.row, column: this.column});
+            this.maze.connect(room, direction);
+            room = room.neighbors[direction];
+            this.stack.push(room);
         }
 
+        this.output();
+    }
+
+    chooseRandomDirection(room) {
+        let directions = this.possibleDirections(room);
+        
+        if (directions.length === 0) {
+            return null;
+        }
+
+        let randomIndex = Math.floor(Math.random() * directions.length);
+        return directions[randomIndex];
+    }
+
+    possibleDirections(room) {
+        return Object.keys(room.neighbors).filter((direction) => !room.neighbors[direction].connected);
+    }
+
+    output() {
         let result = "";
 
         for (let row = 0; row < this.maze.height; row++) {
@@ -35,19 +50,19 @@ export class RecursiveBacktracker {
                     let room = this.maze.rooms[row][column];
                     if (pass == 0) {
                         result += "##";
-                        result += room[Directions.UP] ? ".." : "##";
+                        result += room.openings[Directions.UP] ? ".." : "##";
                         result += "##";
                     }
 
                     if (pass == 1) {
-                        result += (room[Directions.LEFT]) ? ".." : "##";
+                        result += (room.openings[Directions.LEFT]) ? ".." : "##";
                         result += "..";
-                        result += (room[Directions.RIGHT]) ? ".." : "##";
+                        result += (room.openings[Directions.RIGHT]) ? ".." : "##";
                     }
 
                     if (pass == 2) {
                         result += "##";
-                        result += (room[Directions.DOWN]) ? ".." : "##";
+                        result += (room.openings[Directions.DOWN]) ? ".." : "##";
                         result += "##";
                     }
                 }
@@ -56,39 +71,5 @@ export class RecursiveBacktracker {
         }
 
         console.log(result);
-    }
-
-    backtrack() {
-        do {
-            Object.assign(this, this.stack.pop());
-        }
-        while (this.stack.length > 0 && this.possibleDirections().length === 0);
-    }
-
-    possibleDirections() {
-        let directions = [];
-
-        Object.values(Directions).forEach(direction => {
-            let newRow = this.row + Dy[direction];
-            let newColumn = this.column + Dx[direction];
-
-            if (newRow < 0 || newRow >= this.maze.height) {
-                return;
-            }
-
-            if (newColumn < 0 || newColumn >= this.maze.width) {
-                return;
-            }
-
-            let newRoom = this.maze.rooms[newRow][newColumn];
-
-            if (newRoom.connected) {
-                return;
-            }
-
-            directions.push(direction);
-        });
-
-        return directions;
     }
 }
