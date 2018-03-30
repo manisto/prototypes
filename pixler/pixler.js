@@ -24,7 +24,6 @@ class Pixler {
   constructor(size = 33) {
     this.initializePixels(size);
     this.setDefaultColors();
-    this.subscribers = [];
   }
 
   initializePixels(size) {
@@ -59,16 +58,8 @@ class Pixler {
     return Math.sqrt(this.pixels.length);
   }
 
-  subscribe(subscriber) {
-    this.subscribers.push(subscriber);
-  }
-
   setPixel(x, y, color) {
     this.pixels[y * this.size + x] = color;
-
-    this.subscribers.forEach(subscriber => {
-      subscriber("PIXEL_SET", { x, y, color });
-    });
   }
 
   getPixel(x, y) {
