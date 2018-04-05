@@ -11,3 +11,17 @@ export const Opposites = {
     [Directions.DOWN]: Directions.UP,
     [Directions.LEFT]: Directions.RIGHT,
 };
+
+export const DeltaColumn = {
+    [Directions.UP]: 0,
+    [Directions.RIGHT]: 1,
+    [Directions.DOWN]: 0,
+    [Directions.LEFT]: -1,
+}
+
+export const DeltaRow = {
+    [Directions.UP]: -1,
+    [Directions.RIGHT]: 0,
+    [Directions.DOWN]: 1,
+    [Directions.LEFT]: 0,
+}

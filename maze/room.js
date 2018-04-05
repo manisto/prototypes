@@ -1,17 +1,16 @@
-import { Directions } from './directions.js';
+let id = 0;
 
 export class Room {
-    constructor() {
+    constructor(directions) {
+        this.id = id++;
         this.openings = {};
-        this.neighbors = {};
+
+        for (let direction in directions) {
+            this.openings[direction] = false;
+        }
     }
 
     get connected() {
         return Object.values(this.openings).some((opening) => opening);
-    }
-
-    addNeighbor(direction, neighbor) {
-        this.openings[direction] = false;
-        this.neighbors[direction] = neighbor;
     }
 }
