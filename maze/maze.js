@@ -21,21 +21,15 @@ export class Maze {
     }
 
     connect(location, direction) {
-        let opposite = Opposites[direction];
-        let room = this.rooms[location.row][location.column];
+        let room = this.room(location);
         let connectedRoom = this.neighbor(location, direction);
-        room.openings[direction] = true;
-        connectedRoom.openings[opposite] = true;
+        room.open(direction);
+        connectedRoom.open(Opposites[direction]);
     }
 
     neighbor(location, direction) {
-        location = this.delta(location, direction);
-
-        if (!this.valid(location)) {
-            return null;
-        }
-
-        return this.rooms[location.row][location.column];
+        let delta = this.delta(location, direction);
+        return this.room(delta);
     }
 
     delta(location, direction) {
@@ -43,6 +37,14 @@ export class Maze {
             row: location.row + DeltaRow[direction],
             column: location.column + DeltaColumn[direction]
         };
+    }
+
+    room(location) {
+        if (!this.valid(location)) {
+            return null;
+        }
+
+        return this.rooms[location.row][location.column];
     }
 
     valid(location) {
@@ -58,7 +60,7 @@ export class Maze {
     }
 
     directions(location) {
-        return Object.keys(Directions).filter(direction => this.valid(this.delta(location, direction)));
+        return Object.keys(Directions).filter(direction => this.neighbor(location, direction));
     }
 
     output() {
@@ -67,7 +69,7 @@ export class Maze {
         for (let row = 0; row < this.height; row++) {
             for (let pass = 0; pass < 3; pass++) {
                 for (let column = 0; column < this.width; column++) {
-                    let room = this.rooms[row][column];
+                    let room = this.room({ row, column });
                     if (pass == 0) {
                         result += "##";
                         result += room.openings[Directions.UP] ? ".." : "##";
