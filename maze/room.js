@@ -1,20 +1,17 @@
-let id = 0;
-
 export class Room {
     constructor() {
-        this.id = id++;
-        this.openings = {};
+        this._openings = {};
     }
 
     get connected() {
-        return Object.values(this.openings).some((opening) => opening);
+        return Object.values(this._openings).some((opening) => opening);
     }
 
     open(direction) {
-        this.openings[direction] = true;
+        this._openings[direction] = true;
     }
 
-    close(direction) {
-        this.openings[direction] = false;
+    isOpen(direction) {
+        return !!this._openings[direction];
     }
 }

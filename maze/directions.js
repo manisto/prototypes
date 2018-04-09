@@ -1,27 +1,27 @@
-export const Directions = {
-    UP: "UP",
-    RIGHT: "RIGHT",
-    DOWN: "DOWN",
-    LEFT: "LEFT",
-};
+const UP = "UP";
+const RIGHT = "RIGHT";
+const DOWN = "DOWN";
+const LEFT = "LEFT";
+
+export const Directions = [UP, RIGHT, DOWN, LEFT];
 
 export const Opposites = {
-    [Directions.UP]: Directions.DOWN,
-    [Directions.RIGHT]: Directions.LEFT,
-    [Directions.DOWN]: Directions.UP,
-    [Directions.LEFT]: Directions.RIGHT,
+    [UP]: DOWN,
+    [RIGHT]: LEFT,
+    [DOWN]: UP,
+    [LEFT]: RIGHT,
 };
 
 export const DeltaColumn = {
-    [Directions.UP]: 0,
-    [Directions.RIGHT]: 1,
-    [Directions.DOWN]: 0,
-    [Directions.LEFT]: -1,
+    [UP]: 0,
+    [RIGHT]: 1,
+    [DOWN]: 0,
+    [LEFT]: -1,
 }
 
 export const DeltaRow = {
-    [Directions.UP]: -1,
-    [Directions.RIGHT]: 0,
-    [Directions.DOWN]: 1,
-    [Directions.LEFT]: 0,
+    [UP]: -1,
+    [RIGHT]: 0,
+    [DOWN]: 1,
+    [LEFT]: 0,
 }

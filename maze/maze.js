@@ -60,7 +60,7 @@ export class Maze {
     }
 
     directions(location) {
-        return Object.keys(Directions).filter(direction => this.neighbor(location, direction));
+        return Directions.filter(direction => this.neighbor(location, direction));
     }
 
     output() {
@@ -72,19 +72,19 @@ export class Maze {
                     let room = this.room({ row, column });
                     if (pass == 0) {
                         result += "##";
-                        result += room.openings[Directions.UP] ? ".." : "##";
+                        result += room.isOpen("UP") ? ".." : "##";
                         result += "##";
                     }
 
                     if (pass == 1) {
-                        result += (room.openings[Directions.LEFT]) ? ".." : "##";
+                        result += room.isOpen("LEFT") ? ".." : "##";
                         result += "..";
-                        result += (room.openings[Directions.RIGHT]) ? ".." : "##";
+                        result += room.isOpen("RIGHT") ? ".." : "##";
                     }
 
                     if (pass == 2) {
                         result += "##";
-                        result += (room.openings[Directions.DOWN]) ? ".." : "##";
+                        result += room.isOpen("DOWN") ? ".." : "##";
                         result += "##";
                     }
                 }
