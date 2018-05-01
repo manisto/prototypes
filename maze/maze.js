@@ -72,19 +72,19 @@ export class Maze {
                     let room = this.room({ row, column });
                     if (pass == 0) {
                         result += "##";
-                        result += room.isOpen("UP") ? ".." : "##";
+                        result += room.isOpen(1) ? ".." : "##";
                         result += "##";
                     }
 
                     if (pass == 1) {
-                        result += room.isOpen("LEFT") ? ".." : "##";
+                        result += room.isOpen(8) ? ".." : "##";
                         result += "..";
-                        result += room.isOpen("RIGHT") ? ".." : "##";
+                        result += room.isOpen(2) ? ".." : "##";
                     }
 
                     if (pass == 2) {
                         result += "##";
-                        result += room.isOpen("DOWN") ? ".." : "##";
+                        result += room.isOpen(4) ? ".." : "##";
                         result += "##";
                     }
                 }

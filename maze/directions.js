@@ -1,7 +1,7 @@
-const UP = "UP";
-const RIGHT = "RIGHT";
-const DOWN = "DOWN";
-const LEFT = "LEFT";
+const UP = 1;
+const RIGHT = 2;
+const DOWN = 4;
+const LEFT = 8;
 
 export const Directions = [UP, RIGHT, DOWN, LEFT];
 

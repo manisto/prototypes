@@ -1,14 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>Maze generation</head>
-    <script type="module">
-        import { Maze } from './maze.js';
-        import { RecursiveBacktracker } from './recursive-backtracker.js';
-        var maze = new Maze(10, 10);
-        var rb = new RecursiveBacktracker(maze);
-        rb.generate();
-        console.log(maze);
-        console.log(rb);
-        maze.output();
-    </script>
+    <head>
+        <title>Maze generation</title>
+        <script type="module">
+            import { Maze } from './maze.js';
+            import { RecursiveBacktracker } from './recursive-backtracker.js';
+            var maze = new Maze(10, 10);
+            var rb = new RecursiveBacktracker(maze);
+            rb.generate();
+            console.log(maze);
+            console.log(rb);
+            maze.output();
+
+            let tableElement = document.getElementById('maze');
+
+            for (let row = 0; row < maze.height; row++) {
+                let rowElement = document.createElement("tr");
+                tableElement.appendChild(rowElement);
+
+                for (let column = 0; column < maze.width; column++) {
+                    let cellElement = document.createElement("td");
+                    rowElement.appendChild(cellElement);
+
+                    let location = { row, column };
+                    let room = maze.room(location);
+
+                    for (let direction of maze.directions(location)) {
+                        if (room.isOpen(direction)) {
+                            cellElement.classList.add(`_${direction}`);
+                        }
+                    }
+                }
+            }
+        </script>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+
+            td {
+                border: 1px solid black;
+                width: 15px;
+                height: 15px;
+            }
+
+            td._1 { border-top: 0; }
+            td._2 { border-right: 0; }
+            td._4 { border-bottom: 0; }
+            td._8 { border-left: 0; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <table id="maze"></table>
+        </div>
+    </body>
 </html>
