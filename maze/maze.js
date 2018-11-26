@@ -1,35 +1,32 @@
 import { Directions, Opposites, DeltaColumn, DeltaRow } from './directions.js';
-import { Room } from './room.js';
 
 export class Maze {
     constructor(width, height) {
         this.width = width;
         this.height = height;
-        this.rooms = [];
+        this.grid = [];
 
-        this.initializeRooms();
+        this.initializeGrid();
     }
 
-    initializeRooms() {
+    initializeGrid() {
         for (let row = 0; row < this.height; row++) {
-            this.rooms.push([]);
+            this.grid.push([]);
 
             for (let column = 0; column < this.width; column++) {
-                this.rooms[row].push(new Room(Directions));
+                this.grid[row].push(0);
             }
         }
     }
 
     connect(location, direction) {
-        let room = this.room(location);
-        let connectedRoom = this.neighbor(location, direction);
-        room.open(direction);
-        connectedRoom.open(Opposites[direction]);
+        let connectedLocation = this.delta(location, direction);
+        this.open(location, direction);
+        this.open(connectedLocation, Opposites[direction]);
     }
 
-    neighbor(location, direction) {
-        let delta = this.delta(location, direction);
-        return this.room(delta);
+    open(location, direction) {
+        this.grid[location.row][location.column] |= direction;
     }
 
     delta(location, direction) {
@@ -39,15 +36,7 @@ export class Maze {
         };
     }
 
-    room(location) {
-        if (!this.valid(location)) {
-            return null;
-        }
-
-        return this.rooms[location.row][location.column];
-    }
-
-    valid(location) {
+    valid(location, direction) {
         if (location.row < 0 || location.row >= this.height) {
             return false;
         }
@@ -60,7 +49,7 @@ export class Maze {
     }
 
     directions(location) {
-        return Directions.filter(direction => this.neighbor(location, direction));
+        return Directions.filter(direction => this.valid(this.delta(location, direction)));
     }
 
     output() {
