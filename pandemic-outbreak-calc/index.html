@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script type="module" src="index.js"></script>
+        <style>
+            path.y-1, path.y-2, path.y-3 {
+                display: initial;
+            }
+
+            g.y-1 path.y-1 {
+                display: initial;
+            }
+
+            g.y-2 path.y-1, g.y-2 path.y-2 {
+                display: initial;
+            }
+        </style>
+    </head>
+    <body>
+        <svg width="640" height="480">
+            <g transform="translate(100 100)" id="by" class="y-2">
+                <path d="m 0 0 l 30 0 a 30 30 0 0 1 -30 30 z" fill="#a00" />
+                <path d="m 0 0 l 25 0 a 25 25 0 0 1 -25 25 z" fill="#f00" />
+                <path d="m 0 0 l 20 0 a 20 20 0 0 1 -20 20 z" fill="#f66" />
+
+                <path d="m 0 0 l 0 30 a 30 30 0 0 1 -30 -30 z" fill="#00a" />
+                <path d="m 0 0 l 0 25 a 25 25 0 0 1 -25 -25 z" fill="#00f" />
+                <path d="m 0 0 l 0 20 a 20 20 0 0 1 -20 -20 z" fill="#66f" />
+                
+                <path d="m 0 0 l -30 0 a 30 30 0 0 1 30 -30 z" fill="#444" />
+                <path d="m 0 0 l -25 0 a 25 25 0 0 1 25 -25 z" fill="#888" />
+                <path d="m 0 0 l -20 0 a 20 20 0 0 1 20 -20 z" fill="#ccc" />
+
+                <path d="m 0 0 l 0 -30 a 30 30 0 0 1 30 30 z" fill="#990" class="y-3" />
+                <path d="m 0 0 l 0 -25 a 25 25 0 0 1 25 25 z" fill="#ff0" class="y-2" />
+                <path d="m 0 0 l 0 -20 a 20 20 0 0 1 20 20 z" fill="#ffb" class="y-1" />
+
+                <circle cx="0" cy="0" r="15" fill="#ff0000" />
+            </g>
+        </svg>
+    </body>
+</html>
