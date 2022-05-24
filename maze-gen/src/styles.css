@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+#maze > .row {
+    overflow: auto;
+}
+
+#maze > .row > div {
+    width: 25px;
+    height: 25px;
+    float: left;
+    border: 1px solid black;
+}
+
+#maze > .row > div.up {
+    border-top: 0;
+}
+
+#maze > .row > div.right {
+    border-right: 0;
+}
+
+#maze > .row > div.down {
+    border-bottom: 0;
+}
+
+#maze > .row > div.left {
+    border-left: 0;
+}
+
+#maze > .row > div.visited {
+    background-color: #ccc;
+}
+
+#maze > .row > div.active {
+    background-color: #f00;
+}
