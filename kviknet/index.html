@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg=="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div>
+        <canvas id="chart" width="400" height="300"></canvas>
+    </div>
+    <script>
+        const context = document.getElementById("chart").getContext("2d");
+
+        fetch("/data.json")
+            .then((response) => response.json())
+            .then((json) => setupChart(json));
+
+        function setupChart(json) {
+            const labels = [];
+            const downloadData = [];
+
+            json.forEach((row) => {
+                labels.push(row[0]);
+                downloadData.push(row[2]);
+
+                const chart = new Chart(context, {
+                    type: "line",
+                    data: {
+                        datasets: [{
+                            label: "Download",
+                            data: downloadData
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: "linear"
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
